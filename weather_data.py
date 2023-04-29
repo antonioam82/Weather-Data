@@ -2,6 +2,7 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 from meteostat import Point, Daily, Monthly
 from geopy.geocoders import Nominatim
+from colorama import Fore, init, Style
 import argparse
 
 def main():
@@ -20,3 +21,4 @@ def main():
 
 if __name__=='__main__':
     main()
+    
