@@ -15,8 +15,9 @@ year = now.year
 def main():
     parser = argparse.ArgumentParser(prog="WEATHER DATA 0.0",conflict_handler='resolve',
                                      description="Get wether metrics in command line")
-    parser.add_argument('-reg','--region',help="Iinterest region")
-    parser.add_argument('-ptn','--point',help="Coords")
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('-reg','--region',help="Iinterest region")
+    group.add_argument('-ptn','--point',help="Coords")
     parser.add_argument('-dt','--data',choices=['tavg','tmin','tmax','prcp','snow','wdir','wspd','wpgt','pres','tsun'],help="Wheather metrics")
     parser.add_argument('-per','--periodicity',choices=['Daily','Monthly'],help="Periodicity for time series")
     parser.add_argument('-st','--start',type=check_dateformat,help="Start date for time series")
@@ -39,5 +40,4 @@ def check_dateformat(val):
 
 if __name__=='__main__':
     main()
-    
     
