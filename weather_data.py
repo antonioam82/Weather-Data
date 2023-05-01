@@ -22,6 +22,7 @@ def main():
     parser.add_argument('-st','--start',type=check_dateformat,help="Start date for time series")
     parser.add_argument('-e','--end',default='{}/{}/{}'.format(year,month,day),type=check_dateformat,help="End date for time series")
     parser.add_argument('-plt','--plot',action='store_true',help="Show graph")
+    parser.add_argument('-sv','--save',action='store_true',help="Save table")
 
     args = parser.parse_args()
     print(args.start)
@@ -32,10 +33,11 @@ def check_dateformat(val):
         date = datetime.strptime(val, '%Y/%m/%d')
         return date
     except Exception as e:
-        raise argparse.ArgumentTypeError(f"BAD DATE FORMAT: {str(e)}")
+        raise argparse.ArgumentTypeError(Fore.RED+Style.BRIGHT+f"BAD DATE FORMAT: {str(e)}"+Fore.RESET+Style.RESET_ALL)
     
 
 
 if __name__=='__main__':
     main()
+    
     
