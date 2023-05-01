@@ -24,11 +24,11 @@ def main():
     parser.add_argument('-plt','--plot',action='store_true',help="Show graph")
 
     args = parser.parse_args()
+    print(args.start)
     print(args.end)
 
 def check_dateformat(val):
     try:
-        print(val)
         date = datetime.strptime(val, '%Y/%m/%d')
         return date
     except Exception as e:
