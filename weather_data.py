@@ -26,6 +26,10 @@ def main():
     parser.add_argument('-sv','--save',action='store_true',help="Save table")
 
     args = parser.parse_args()
+    
+    if args.end > args.start:
+        parser.error(Fore.RED+Style.BRIGHT+"start date must be smaller than end date."+Fore.RESET+Style.RESET_ALL) 
+    
     print(args.start)
     print(args.end)
 
@@ -40,4 +44,5 @@ def check_dateformat(val):
 
 if __name__=='__main__':
     main()
+    
     
