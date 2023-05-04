@@ -16,7 +16,7 @@ def main():
     parser = argparse.ArgumentParser(prog="WEATHER DATA 0.0",conflict_handler='resolve',
                                      description="Get wether metrics in command line")
     group = parser.add_mutually_exclusive_group()
-    group.add_argument('-reg','--region',help="Iinterest region")
+    group.add_argument('-reg','--region',help="Interest region")
     group.add_argument('-ptn','--point',help="Coords")
     parser.add_argument('-dt','--data',choices=['tavg','tmin','tmax','prcp','snow','wdir','wspd','wpgt','pres','tsun'],help="Wheather metrics")
     parser.add_argument('-per','--periodicity',choices=['Daily','Monthly'],help="Periodicity for time series")
@@ -26,6 +26,9 @@ def main():
     parser.add_argument('-sv','--save',action='store_true',help="Save table")
 
     args = parser.parse_args()
+
+    if not args.region and not args.point:
+        parser.error(Fore.RED+Style.BRIGHT+"region or point is required."+Fore.RESET+Style.RESET_ALL) 
     
     if args.end > args.start:
         parser.error(Fore.RED+Style.BRIGHT+"start date must be smaller than end date."+Fore.RESET+Style.RESET_ALL) 
