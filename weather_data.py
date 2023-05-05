@@ -17,8 +17,8 @@ def main():
                                      description="Get wether metrics in command line")
     #group = parser.add_mutually_exclusive_group()
     parser.add_argument('-reg','--region',type=set_reg_point,help="Interest region")
-    parser.add_argument('-long','--longitude',type=int,help="Coords")
-    parser.add_argument('-lat','--latitude',type=int,help="Interest region")
+    parser.add_argument('-long','--longitude',type=float,help="Coords")
+    parser.add_argument('-lat','--latitude',type=float,help="Interest region")
     parser.add_argument('-dt','--data',choices=['tavg','tmin','tmax','prcp','snow','wdir','wspd','wpgt','pres','tsun'],help="Wheather metrics")
     parser.add_argument('-per','--periodicity',choices=['Daily','Monthly'],help="Periodicity for time series")
     parser.add_argument('-st','--start',type=check_dateformat,required=True,help="Start date for time series")
@@ -37,6 +37,8 @@ def main():
     
     if args.end < args.start:
         parser.error(Fore.RED+Style.BRIGHT+"start date must be smaller than end date."+Fore.RESET+Style.RESET_ALL)
+
+    get_data(args) 
 
 def check_dateformat(val):
     try:
@@ -63,7 +65,13 @@ def set_point(val):
         return points
     except Exception as e:
         raise argparse.ArgumentTypeError(Fore.RED+Style.BRIGHT+str(e)+Fore.RESET+Style.RESET_ALL)
-        
+
+def get_data(args):
+    region = Point(args.latitude, args.longitude)
+    #print(region)
+    data = Daily(region, args.start, args.end)
+    data = data.fetch()
+    print(data)
 
 if __name__=='__main__':
     main()
