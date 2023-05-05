@@ -67,14 +67,24 @@ def set_point(val):
         raise argparse.ArgumentTypeError(Fore.RED+Style.BRIGHT+str(e)+Fore.RESET+Style.RESET_ALL)
 
 def get_data(args):
-    region = Point(args.latitude, args.longitude)
-    #print(region)
-    data = Daily(region, args.start, args.end)
-    data = data.fetch()
-    print(data)
+    try:
+        if not args.region:
+            region = Point(args.latitude, args.longitude)
+            #print(region)
+        else:
+            region = Point(args.region[0], args.region[1])
+        data = Daily(region, args.start, args.end)
+        data = data.fetch()
+        print(data)
+
+        if args.plot:
+            data.plot(y=['tavg','tmin','tmax'])
+            plt.show()
+            
+    except Exception as e:
+        print(Fore.RED+Style.BRIGHT+str(e)+Fore.RESET+Style.RESET_ALL)
 
 if __name__=='__main__':
     main()
-    
     
     
