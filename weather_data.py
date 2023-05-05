@@ -15,26 +15,28 @@ year = now.year
 def main():
     parser = argparse.ArgumentParser(prog="WEATHER DATA 0.0",conflict_handler='resolve',
                                      description="Get wether metrics in command line")
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument('-reg','--region',type=set_reg_point,help="Interest region")
-    group.add_argument('-ptn','--point',type=set_point,help="Coords")
+    #group = parser.add_mutually_exclusive_group()
+    parser.add_argument('-reg','--region',type=set_reg_point,help="Interest region")
+    parser.add_argument('-long','--longitude',type=int,help="Coords")
+    parser.add_argument('-lat','--latitude',type=int,help="Interest region")
     parser.add_argument('-dt','--data',choices=['tavg','tmin','tmax','prcp','snow','wdir','wspd','wpgt','pres','tsun'],help="Wheather metrics")
     parser.add_argument('-per','--periodicity',choices=['Daily','Monthly'],help="Periodicity for time series")
-    parser.add_argument('-st','--start',type=check_dateformat,help="Start date for time series")
+    parser.add_argument('-st','--start',type=check_dateformat,required=True,help="Start date for time series")
     parser.add_argument('-e','--end',default='{}/{}/{}'.format(year,month,day),type=check_dateformat,help="End date for time series")
     parser.add_argument('-plt','--plot',action='store_true',help="Show graph")
     parser.add_argument('-sv','--save',action='store_true',help="Save table")
 
     args = parser.parse_args()
 
-    if not args.region and not args.point:
-        parser.error(Fore.RED+Style.BRIGHT+"region or point is required."+Fore.RESET+Style.RESET_ALL)
+    if args.region:
+        if args.longitude or args.latitude:
+            parser.error(Fore.RED+Style.BRIGHT+"-lat/--latitude and -long/--longitude: not allowed with argument -reg/--region"+Fore.RESET+Style.RESET_ALL)
+    else:
+        if not args.longitude or not args.latitude:
+            parser.error(Fore.RED+Style.BRIGHT+"region or point are required"+Fore.RESET+Style.RESET_ALL)
     
-    if args.end > args.start:
-        parser.error(Fore.RED+Style.BRIGHT+"start date must be smaller than end date."+Fore.RESET+Style.RESET_ALL) 
-    
-    #print(args.start)
-    #print(args.end)
+    if args.end < args.start:
+        parser.error(Fore.RED+Style.BRIGHT+"start date must be smaller than end date."+Fore.RESET+Style.RESET_ALL)
 
 def check_dateformat(val):
     try:
@@ -65,5 +67,6 @@ def set_point(val):
 
 if __name__=='__main__':
     main()
+    
     
     
