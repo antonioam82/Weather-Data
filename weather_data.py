@@ -65,7 +65,7 @@ def set_data(vals):
     dats = vals.split(",")
     for i in dats:
         if i not in choices:
-            argparse.ArgumentTypeError(Fore.RED+Style.BRIGHT+"BAD CHOICE: select from "+choices++Fore.RESET+Style.RESET_ALL)
+            raise argparse.ArgumentTypeError(Fore.RED+Style.BRIGHT+"BAD CHOICE"+Fore.RESET+Style.RESET_ALL)
             break
     
             
