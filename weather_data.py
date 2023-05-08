@@ -75,7 +75,9 @@ def get_data(args):
             region = Point(args.region[0], args.region[1])
         data = Daily(region, args.start, args.end)
         data = data.fetch()
+        print("\n"+Fore.GREEN)
         print(data)
+        print("\n"+Fore.RESET)
 
         if args.plot:
             data.plot(y=['tavg','tmin','tmax'])
@@ -86,5 +88,6 @@ def get_data(args):
 
 if __name__=='__main__':
     main()
+    
     
     
