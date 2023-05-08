@@ -12,6 +12,8 @@ day = now.day
 month = now.month
 year = now.year
 
+dats = ['tavg','tmin','tmax','prcp','snow','wdir','wspd','wpgt','pres','tsun']
+
 def main():
     parser = argparse.ArgumentParser(prog="WEATHER DATA 0.0",conflict_handler='resolve',
                                      description="Get wether metrics in command line")
@@ -19,7 +21,7 @@ def main():
     parser.add_argument('-reg','--region',type=set_reg_point,help="Interest region")
     parser.add_argument('-long','--longitude',type=float,help="Coords")
     parser.add_argument('-lat','--latitude',type=float,help="Interest region")
-    parser.add_argument('-dt','--data',choices=['tavg','tmin','tmax','prcp','snow','wdir','wspd','wpgt','pres','tsun'],help="Wheather metrics")
+    parser.add_argument('-dt','--data',type=set_data,help="Wheather metrics")
     parser.add_argument('-per','--periodicity',choices=['Daily','Monthly'],help="Periodicity for time series")
     parser.add_argument('-st','--start',type=check_dateformat,required=True,help="Start date for time series")
     parser.add_argument('-e','--end',default='{}/{}/{}'.format(year,month,day),type=check_dateformat,help="End date for time series")
@@ -57,6 +59,17 @@ def set_reg_point(val):
     except Exception as e:
         raise argparse.ArgumentTypeError(Fore.RED+Style.BRIGHT+str(e)+Fore.RESET+Style.RESET_ALL)
 
+def set_data(vals):
+    global dats
+    choices = ['tavg','tmin','tmax','prcp','snow','wdir','wspd','wpgt','pres','tsun']
+    dats = vals.split(",")
+    for i in dats:
+        if i not in choices:
+            argparse.ArgumentTypeError(Fore.RED+Style.BRIGHT+"BAD CHOICE: select from "+choices++Fore.RESET+Style.RESET_ALL)
+            break
+    
+            
+
 def set_point(val):
     try:
         vals = val.split("-")
@@ -76,7 +89,7 @@ def get_data(args):
         data = Daily(region, args.start, args.end)
         data = data.fetch()
         print("\n"+Fore.GREEN)
-        print(data)
+        print(data[dats])
         print("\n"+Fore.RESET)
 
         if args.plot:
@@ -88,6 +101,7 @@ def get_data(args):
 
 if __name__=='__main__':
     main()
+    
     
     
     
