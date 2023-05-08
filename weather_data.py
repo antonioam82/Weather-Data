@@ -68,8 +68,6 @@ def set_data(vals):
             raise argparse.ArgumentTypeError(Fore.RED+Style.BRIGHT+"BAD CHOICE"+Fore.RESET+Style.RESET_ALL)
             break
     
-            
-
 def set_point(val):
     try:
         vals = val.split("-")
