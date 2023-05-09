@@ -67,7 +67,7 @@ def set_data(vals):
         if i not in choices:
             raise argparse.ArgumentTypeError(Fore.RED+Style.BRIGHT+"BAD CHOICE"+Fore.RESET+Style.RESET_ALL)
             break
-    
+
 def set_point(val):
     try:
         vals = val.split("-")
@@ -91,7 +91,7 @@ def get_data(args):
         print("\n"+Fore.RESET)
 
         if args.plot:
-            data.plot(y=['tavg','tmin','tmax'])
+            data.plot(y=dats)
             plt.show()
             
     except Exception as e:
