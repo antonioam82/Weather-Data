@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from meteostat import Point, Daily, Monthly
 from geopy.geocoders import Nominatim
 from colorama import Fore, init, Style
+import pathlib
 import argparse
 
 init()
@@ -26,7 +27,7 @@ def main():
     parser.add_argument('-st','--start',type=check_dateformat,required=True,help="Start date for time series")
     parser.add_argument('-e','--end',default='{}/{}/{}'.format(year,month,day),type=check_dateformat,help="End date for time series")
     parser.add_argument('-plt','--plot',action='store_true',help="Show graph")
-    parser.add_argument('-sv','--save',action='store_true',help="Save table")
+    parser.add_argument('-sv','--save',type=check_extension,help="Save table") #,action='store_true'
 
     args = parser.parse_args()
 
@@ -40,7 +41,15 @@ def main():
     if args.end < args.start:
         parser.error(Fore.RED+Style.BRIGHT+"start date must be smaller than end date."+Fore.RESET+Style.RESET_ALL)
 
-    get_data(args) 
+    get_data(args)
+
+def check_extension(val):
+    extension = pathlib.Path(val).suffix
+    if extension == ".txt" or extension == ".xlsx" or extension == ".csv":
+        print('OK')
+        return val
+    else:
+        raise argparse.ArgumentTypeError(Fore.RED+Style.BRIGHT+f"BAD FILE FORMAT: Format mus be 'txt', 'xlsx' or 'csv'"+Fore.RESET+Style.RESET_ALL)
 
 def check_dateformat(val):
     try:
@@ -99,6 +108,7 @@ def get_data(args):
 
 if __name__=='__main__':
     main()
+    
     
     
     
