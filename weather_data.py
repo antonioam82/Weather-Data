@@ -49,7 +49,7 @@ def check_extension(val):
         print('OK')
         return val
     else:
-        raise argparse.ArgumentTypeError(Fore.RED+Style.BRIGHT+f"BAD FILE FORMAT: Format mus be 'txt', 'xlsx' or 'csv'"+Fore.RESET+Style.RESET_ALL)
+        raise argparse.ArgumentTypeError(Fore.RED+Style.BRIGHT+f"BAD FILE FORMAT: Format must be 'txt', 'xlsx' or 'csv'"+Fore.RESET+Style.RESET_ALL)
 
 def check_dateformat(val):
     try:
