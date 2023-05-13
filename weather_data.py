@@ -43,6 +43,20 @@ def main():
 
     get_data(args)
 
+def save_data(args,df):
+    doc = args.save
+    extension = pathlib.Path(doc).suffix
+    try:
+        if extension == ".txt":
+            with open(doc, "w") as document:
+                document.write(str(df))
+        else:
+            df.to_excel(doc,index=False)
+        print(Fore.YELLOW+f"\nDocument saved as '{doc}'"+Fore.RESET)
+        
+    except Exception as e:
+        print(Fore.RED+Style.BRIGHT+f"\nUNEXPECTED ERROR: {str(e)}"+Fore.RESET+Style.RESET_ALL)
+
 def check_extension(val):
     extension = pathlib.Path(val).suffix
     if extension == ".txt" or extension == ".xlsx" or extension == ".csv":
@@ -95,12 +109,16 @@ def get_data(args):
             region = Point(args.region[0], args.region[1])
         data = Daily(region, args.start, args.end)
         data = data.fetch()
+        f_data = data[dats]
         print("\n"+Fore.GREEN)
-        print(data[dats])
+        print(f_data)
         print("\n"+Fore.RESET)
 
+        if args.save:
+            save_data(args,f_data)
+
         if args.plot:
-            data.plot(y=dats)
+            f_data.plot(y=dats)
             plt.show()
             
     except Exception as e:
