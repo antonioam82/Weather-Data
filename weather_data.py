@@ -107,7 +107,10 @@ def get_data(args):
             #print(region)
         else:
             region = Point(args.region[0], args.region[1])
-        data = Daily(region, args.start, args.end)
+        if args.periodicity == "Monthly":
+            data = Monthly(region, args.start, args.end)
+        else:
+            data = Daily(region, args.start, args.end)
         data = data.fetch()
         f_data = data[dats]
         print("\n"+Fore.GREEN)
@@ -126,6 +129,7 @@ def get_data(args):
 
 if __name__=='__main__':
     main()
+    
     
     
     
