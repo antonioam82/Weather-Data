@@ -5,6 +5,8 @@ from geopy.geocoders import Nominatim
 from colorama import Fore, init, Style
 import pathlib
 import argparse
+import warnings
+warnings.filterwarnings("ignore")
 
 init()
 
